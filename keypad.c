@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "utils.h"  // Local functions
 #include "i2c.h"
 #include "timer.h"
 
@@ -29,8 +29,7 @@ int getNumber(int col, int readByte)
     char lookup[5][5] = {{' ','1','4','7','*'},{' ','2','5','8','0'},{' ','3','6','9','#'},{' ','A','B','C','D'}};
     col = 3-col;
 
-    int z;
-    for(z=0; z<4;z++)
+    for(int z=0; z<4;z++)
     {
          int rb = readByte;
          if((rb & (1<<z)) == (1<<z))

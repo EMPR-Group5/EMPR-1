@@ -33,7 +33,7 @@ CMSISFL=$(CMSIS)/lib/core_cm3.o \
 	$(CMSIS)/lib/startup_LPC17xx.o
 LDSCRIPT = $(CMSIS)/lib/ldscript_rom_gnu.ld
 
-CFLAGS=-mcpu=cortex-m3  -mthumb  -Wall  -O0  -mapcs-frame  -D__thumb2__=1 \
+CFLAGS=-std=gnu99 -mcpu=cortex-m3  -mthumb  -Wall  -O0  -mapcs-frame  -D__thumb2__=1 \
   -msoft-float  -gdwarf-2  -mno-sched-prolog  -fno-hosted  -mtune=cortex-m3 \
   -march=armv7-m  -mfix-cortex-m3-ldrd   -ffunction-sections  -fdata-sections \
           -D__RAM_MODE__=0 $(CMSISINCLUDES) -I.
@@ -46,10 +46,10 @@ LDFLAGS=$(CMSISFL) -static -mcpu=cortex-m3 -mthumb -mthumb-interwork \
 LDFLAGS+=-L$(CMSIS)/lib -lDriversLPC17xxgnu
 
 # Name of the binary being built
-EXECNAME	= bin/refactored
+EXECNAME = bin/refactored
 
 # Source files provided by the user to build the project
-OBJ		= main.o utils.o i2c.o lcd.o timer.o keypad.o serial.o
+OBJ	= main.o utils.o i2c.o lcd.o timer.o keypad.o serial.o
 
 # Commands handled by this makefile
 all: 	serial
@@ -75,6 +75,5 @@ USER:=$(shell whoami)
 
 install:
 	@echo "Copying " $(EXECNAME) "to the MBED file system"
-	cp $(EXECNAME).bin /media/$(USER)/MBED &
-	sync
-	@echo "Now press the reset button on all MBED file systems"
+	cp $(EXECNAME).bin /media/$(USER)/MBED & sync
+	@echo "Reset the MBED board now"

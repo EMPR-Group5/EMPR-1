@@ -1,16 +1,19 @@
 #include "lpc17xx_uart.h"		// Central include files
 #include "lpc17xx_pinsel.h"
 #include "lpc_types.h"
-#include "serial.h"			// Local functions
+#include "serial.h"			    // Local functions
+#include "utils.h"
+
+//screen /dev/ACM0
 
 // Read options
-int read_usb_serial_none_blocking(char *buf,int length)
+int read_usb_serial_none_blocking(char *buf, int length)
 {
     return(UART_Receive((LPC_UART_TypeDef *)LPC_UART0, (uint8_t *)buf, length, NONE_BLOCKING));
 }
 
 // Write options
-int write_usb_serial_blocking(char *buf,int length)
+int write_usb_serial_blocking(char *buf, int length)
 {
     return(UART_Send((LPC_UART_TypeDef *)LPC_UART0,(uint8_t *)buf,length, BLOCKING));
 }
@@ -24,6 +27,7 @@ void serialWriteByte(int byte)
 {
     UART_SendByte((LPC_UART_TypeDef *)LPC_UART0, byte);
 }
+
 void stopSerial(void)
 {
     UART_TxCmd((LPC_UART_TypeDef *)LPC_UART0, DISABLE);
@@ -68,4 +72,5 @@ void serial_init(void)
     UART_Init((LPC_UART_TypeDef *)LPC_UART0, &UARTConfigStruct);		// Initialize UART0 peripheral with given to corresponding parameter
     UART_FIFOConfig((LPC_UART_TypeDef *)LPC_UART0, &UARTFIFOConfigStruct);	// Initialize FIFO for UART0 peripheral
     UART_TxCmd((LPC_UART_TypeDef *)LPC_UART0, ENABLE);			// Enable UART Transmit
+    serialWrite("Serial setup");
 }

@@ -22,6 +22,8 @@ void setupI2C(void)
     //Init I2C1
     I2C_Init(LPC_I2C1, 10000);
     I2C_Cmd(LPC_I2C1, ENABLE);
+
+    serialWrite("I2C setup");
 }
 
 int i2cWrite(int addr, char* data, int length)
@@ -99,12 +101,11 @@ int i2cReadWrite(int addr, char* writeData, int writeLength, char* readData, int
     }
 }
 
-int i2cScan(int * addressArray)
+int i2cScan(int* addressArray)
 {
     int counter = 0;
-    int addr = 0;
     int testData [1] = {0x01};
-    for(addr = 0; addr < 128; addr++)
+    for(int addr = 0; addr < 128; addr++)
     {
         if(i2cWrite(addr, testData, 1) == 1)
         {
@@ -118,15 +119,16 @@ int i2cScan(int * addressArray)
 void i2cScanAll(void)
 {
     //Scanning
-    int * addresses[128];
+    int* addresses[128];
     int num = i2cScan(addresses);
-    len = sprintf(output, "%d devices connected to i2c bus\n\r", num);
+    len = sprintf(output, "%03d devices connected to i2c bus", num);
     serialWrite(output);
 
-    int a;
-    for(a = 0; a<num; a++)
+    for(int i = 0; i<num; i++)
     {
-        len = sprintf(output, "Device at %x\n\r", addresses[a]);
+        len = sprintf(output, "Device at 0x%03x %03d", addresses[i], addresses[i]);
         serialWrite(output);
     }
+
+    serialWrite("End of devices\n");
 }

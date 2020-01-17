@@ -11,13 +11,12 @@ void initAll(void)
     setupI2C();
     setupTimer();
     lcdSetup();
-    serialWrite("\rStarting\n\r");
+    serialWrite("Setup Done \n");
 }
 
 void fillArray(int * array, int value, int length)
 {
-    int a = 0;
-    for(a=0; a<length;a++)
+    for(int a=0; a<length;a++)
     {
         array[a] = value;
     }
@@ -27,7 +26,7 @@ void serialWrite(char *str)
 {
     // malloc for the output string to save space
     char *buffer = (char*) malloc((strlen(str) + sizeof(int) + 3) * sizeof(char));
-    sprintf(buffer, "<%d> %s\n\r", messageCount, str);
+    sprintf(buffer, "<%03d> %s\n\r", messageCount, str);
     write_usb_serial_blocking(buffer, strlen(buffer));
 
     free(buffer);

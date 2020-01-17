@@ -1,14 +1,15 @@
+#include <stdio.h>  // Global includes
+#include "utils.h"  // Local functions
 #include "i2c.h"
-#include <stdio.h>
-#include "utils.h"
 
-//int addressLCD = 0x3b;
+const int LCDADDRESS = 0x3b;
 
 void lcdSetup(void)
 {
     char initial[] = {0x00,0x34,0x0c,0x06,0x35,0x04,0x10,0x42,0x9f,0x34,0x02};
-    i2cWrite(0x3b, initial, 11);
+    i2cWrite(LCDADDRESS, initial, 11);
     lcdClear();
+    serialWrite("LCD setup");
 }
 
 void lcdWrite(char* data, int length)
@@ -24,7 +25,7 @@ void lcdWrite(char* data, int length)
         text[1+a] = data[a];
     }
     //Send new data array
-    i2cWrite(0x3b, text, length+1);
+    i2cWrite(LCDADDRESS, text, length+1);
 }
 
 void lcdClear(void)
@@ -34,7 +35,7 @@ void lcdClear(void)
     memset(clear, 0xA0, len);
     clear[0] = 0x40;
     lcdSetCursor(0);
-    i2cWrite(0x3b, clear, len);
+    i2cWrite(LCDADDRESS, clear, len);
     lcdSetCursor(0);
 }
 
@@ -42,7 +43,13 @@ void lcdSetCursor(int pos)
 {
     char data [2] = {0x00, 0x00};
     data[1] = 0x80+pos;
-    i2cWrite(0x3b, data, 2);
+    i2cWrite(LCDADDRESS, data, 2);
+}
+
+void lcdLineSelect(int line)
+{
+    int cursor = (line == 1 ? 0 : 41);
+    lcdSetCursor(cursor);
 }
 
 void convertText(char* data, int length)

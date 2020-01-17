@@ -1,9 +1,9 @@
-#include <stdio.h>
-#include "lpc17xx_gpio.h"
+#include <stdio.h>              // Global includes
+#include "lpc17xx_gpio.h"       // Central include files
 #include "lpc17xx_systick.h"	
 #include "lpc17xx_pinsel.h"
 #include "lpc_types.h"
-#include "utils.h"
+#include "utils.h"              // Local functions
 #include "i2c.h"
 #include "lcd.h"
 #include "timer.h"
@@ -17,8 +17,7 @@ void main(void)
 {
     initAll();
 
-    i2cScanAll();
-    
+    i2cScanAll();    
     timerSleep(1);
 
     //Display Hello
@@ -29,7 +28,7 @@ void main(void)
 
     //Display World
     lcdClear();
-    lcdSetCursor(41);
+    lcdLineSelect(2);
     len = sprintf(output, " World");
     lcdWrite(output, len);
 
@@ -55,8 +54,7 @@ void main(void)
             {
                 //Add to array of keys
                 buffer[count] = keypadButton;
-                count ++;
-                if(count>=bufferSize)
+                if(++count>=bufferSize)
                 {
                     count = 0;
                 }
@@ -66,12 +64,11 @@ void main(void)
 
             }
 
-            lcdSetCursor(0);
+            lcdLineSelect(1);
             len = sprintf(output, "Buttons:");
 
             //Add keys to end of output
-            int a;
-            for(a=0; a<bufferSize; a++)
+            for(int a=0; a<bufferSize; a++)
             {
                 output[a+len] = buffer[a];
             }
@@ -79,5 +76,3 @@ void main(void)
         }
     }  
 }
-
-

@@ -1,4 +1,5 @@
-#include "lpc17xx_systick.h"
+#include "lpc17xx_systick.h"    // Central include files
+#include "utils.h"              // Local functions
 
 long totalCountOverflows;
 long long totalCount;
@@ -10,6 +11,7 @@ void setupTimer()
     SYSTICK_InternalInit(1);
     SYSTICK_IntCmd(ENABLE);
     SYSTICK_Cmd(ENABLE);
+    serialWrite("Timer setup");
 }
 
 double timeElapsed(void)
@@ -31,6 +33,7 @@ void timerReset(void)
 
 void timerSleep(int duration)
 {
+    serialWrite("Sleeping");
     timerReset();
     while(timeElapsed() < 1){}
 }
