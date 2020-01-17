@@ -1,9 +1,4 @@
-
 char * debug4Bit(int val);
-void setupSerial(void);
-int serialWrite(char *buf,int length);
-void serialWriteByte(int byte);
-char serialRead(char *buf, int length);
-char serialReadByte(void);
-void stopSerial(void);
-//bool i2cSendComplete(void);
+void serialWrite(char *str);
+void initAll(void);
+void fillArray(int * array, int value, int length);

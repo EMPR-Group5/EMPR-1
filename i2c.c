@@ -3,9 +3,29 @@
 #include "lpc_types.h"
 #include "utils.h"
 
+char output[128];
+int len;
+
+void setupI2C(void)
+{
+    //Configure pins for I2C1
+    PINSEL_CFG_Type PinCfg;
+    PinCfg.Funcnum = 3;
+	PinCfg.OpenDrain = 0;
+	PinCfg.Pinmode = 0;
+	PinCfg.Portnum = 0;
+	PinCfg.Pinnum = 0;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Pinnum = 1;
+	PINSEL_ConfigPin(&PinCfg);
+
+    //Init I2C1
+    I2C_Init(LPC_I2C1, 10000);
+    I2C_Cmd(LPC_I2C1, ENABLE);
+}
+
 int i2cWrite(int addr, char* data, int length)
 {
-
     //Setup Packet
     I2C_M_SETUP_Type packet;
     packet.sl_addr7bit = addr;
@@ -79,24 +99,6 @@ int i2cReadWrite(int addr, char* writeData, int writeLength, char* readData, int
     }
 }
 
-void setupI2C(void)
-{
-    //Configure pins for I2C1
-    PINSEL_CFG_Type PinCfg;
-    PinCfg.Funcnum = 3;
-	PinCfg.OpenDrain = 0;
-	PinCfg.Pinmode = 0;
-	PinCfg.Portnum = 0;
-	PinCfg.Pinnum = 0;
-	PINSEL_ConfigPin(&PinCfg);
-	PinCfg.Pinnum = 1;
-	PINSEL_ConfigPin(&PinCfg);
-
-    //Init I2C1
-    I2C_Init(LPC_I2C1, 10000);
-    I2C_Cmd(LPC_I2C1, ENABLE);
-}
-
 int i2cScan(int * addressArray)
 {
     int counter = 0;
@@ -111,4 +113,20 @@ int i2cScan(int * addressArray)
         }
     }
     return(counter);
+}
+
+void i2cScanAll(void)
+{
+    //Scanning
+    int * addresses[128];
+    int num = i2cScan(addresses);
+    len = sprintf(output, "%d devices connected to i2c bus\n\r", num);
+    serialWrite(output);
+
+    int a;
+    for(a = 0; a<num; a++)
+    {
+        len = sprintf(output, "Device at %x\n\r", addresses[a]);
+        serialWrite(output);
+    }
 }
