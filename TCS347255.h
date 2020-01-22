@@ -1,0 +1,2 @@
+void setupTCS();
+int TCSRead();

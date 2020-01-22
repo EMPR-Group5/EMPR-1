@@ -49,7 +49,7 @@ LDFLAGS+=-L$(CMSIS)/lib -lDriversLPC17xxgnu
 EXECNAME = bin/refactored
 
 # Source files provided by the user to build the project
-OBJ	= main.o utils.o i2c.o lcd.o timer.o keypad.o serial.o
+OBJ	= main.o utils.o i2c.o lcd.o timer.o keypad.o serial.o TCS347255.o
 
 # Commands handled by this makefile
 all: 	serial

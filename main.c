@@ -9,6 +9,7 @@
 #include "timer.h"
 #include "keypad.h"
 #include "utils.h"
+#include "TCS347255.h"
 
 char output[128];
 int len;
@@ -17,62 +18,12 @@ void main(void)
 {
     initAll();
 
-    i2cScanAll();    
+    // i2cScanAll();    
     timerSleep(1);
 
-    //Display Hello
-    len = sprintf(output, "Hello");
-    lcdWrite(output, len);
-
-    timerSleep(1);
-
-    //Display World
-    lcdClear();
-    lcdLineSelect(2);
-    len = sprintf(output, " World");
-    lcdWrite(output, len);
-
-    timerSleep(1);
-
-    lcdClear();
-
-    int bufferSize = 7;
-    int buffer[bufferSize];
-    fillArray(buffer, 32, bufferSize);
-
-    int count = 0;
-    int keypadButton;
     while(1)
     {
-        //Check Every 10ms
-        if(timeElapsed() > (float)0.01)
-        {    
-            //Read key value        
-            keypadButton = keypadRead();
-            timerReset();
-            if(keypadButton > 0)
-            {
-                //Add to array of keys
-                buffer[count] = keypadButton;
-                if(++count>=bufferSize)
-                {
-                    count = 0;
-                }
-                
-                //Print keys to screen
-                checkButton(keypadButton, buffer, &count, bufferSize);
-
-            }
-
-            lcdLineSelect(1);
-            len = sprintf(output, "Buttons:");
-
-            //Add keys to end of output
-            for(int a=0; a<bufferSize; a++)
-            {
-                output[a+len] = buffer[a];
-            }
-            lcdWrite(output, len+bufferSize);
-        }
-    }  
+        TCSRead();
+        timerSleep(0.05);
+    }
 }

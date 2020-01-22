@@ -1,4 +1,4 @@
-void setupTimer(int interval);
+void setupTimer();
 double timeElapsed(void);
 double totalTimeElapsed(void);
 void timerReset(void);

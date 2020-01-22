@@ -4,7 +4,7 @@
 #include "serial.h"			    // Local functions
 #include "utils.h"
 
-//screen /dev/ACM0
+//screen /dev/ttyACM0
 
 // Read options
 int read_usb_serial_none_blocking(char *buf, int length)
