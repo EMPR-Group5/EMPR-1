@@ -20,7 +20,7 @@ void setupI2C(void)
 	PINSEL_ConfigPin(&PinCfg);
 
     //Init I2C1
-    I2C_Init(LPC_I2C1, 10000);
+    I2C_Init(LPC_I2C1, 100000);
     I2C_Cmd(LPC_I2C1, ENABLE);
 
     serialWrite("I2C setup");

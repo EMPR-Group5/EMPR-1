@@ -1,7 +1,14 @@
 #include <stdio.h>          // Global includes
 #include <stdlib.h>
+#include <string.h>
 #include "lpc17xx_gpio.h"   // Central include files // Local functions
-#include "serial.h"         // Local functions
+#include "i2c.h"              // Local functions
+#include "lcd.h"
+#include "serial.h"
+#include "timer.h"
+#include "keypad.h"
+#include "utils.h"
+#include "TCS347255.h"
 
 int messageCount = 0;
 
@@ -11,6 +18,7 @@ void initAll(void)
     setupI2C();
     setupTimer();
     lcdSetup();
+    setupTCS();
     serialWrite("Setup Done \n");
 }
 
