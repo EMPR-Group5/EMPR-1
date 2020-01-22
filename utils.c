@@ -1,7 +1,7 @@
 #include <stdio.h>          // Global includes
 #include <stdlib.h>
 #include <string.h>
-#include "lpc17xx_gpio.h"   // Central include files // Local functions
+#include "lpc17xx_gpio.h"   // Central include files
 #include "i2c.h"              // Local functions
 #include "lcd.h"
 #include "serial.h"
@@ -33,7 +33,7 @@ void fillArray(int * array, int value, int length)
 void serialWrite(char *str)
 {
     // malloc for the output string to save space
-    char *buffer = (char*) malloc((strlen(str) + sizeof(int) + 3) * sizeof(char));
+    char *buffer = (char*) malloc((strlen(str) + sizeof(int) + 3) * sizeof(char) + 4);
     sprintf(buffer, "<%03d> %s\n\r", messageCount, str);
     write_usb_serial_blocking(buffer, strlen(buffer));
 

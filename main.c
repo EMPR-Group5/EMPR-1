@@ -21,9 +21,12 @@ void main(void)
     // i2cScanAll();    
     timerSleep(1);
 
+    int rgbValues[3] = {0} 
+
     while(1)
     {
-        TCSRead();
+        TCSRead(rgbValues);
+        serialWrite(rgbValues);
         timerSleep(0.05);
     }
 }

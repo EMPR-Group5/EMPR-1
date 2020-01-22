@@ -42,79 +42,25 @@ void setupTCS()
 	config[1] = 0x00;
 	i2cWrite(TCSADDRESS, config, 2);
 
-	timerSleep(1);
-
     serialWrite("TCSRGB setup");
 }
 
-int TCSRead()
+int TCSRead(int* RGBC)
 {
     // Read 8 bytes of data from register(0x94)
 	// cData lsb, cData msb, red lsb, red msb, green lsb, green msb, blue lsb, blue msb
-    
-	// i2cWrite(TCSADDRESS, reg, 1);
-	int data[6];
-    i2cReadWrite(TCSADDRESS, &REDREAD, 1, &data, 6);
+	
+    char data[8] = {0};
+    i2cReadWrite(TCSADDRESS, CDATAREAD, 1, data, 8);
 
     // Convert the data
-    // char cData = ((data[1] << 8) + data[0]);
-    int red     = (data[1] << 8) + data[0];
-    int green   = (data[3] << 8) + data[2];
-    int blue    = (data[5] << 8) + data[4];
-
-    // char data[2];
+    int RGBC[3]   = (data[1] << 8) + data[0];
+    int RGBC[0]   = (data[3] << 8) + data[2];
+    int RGBC[1]   = (data[5] << 8) + data[4];
+    int RGBC[2]   = (data[7] << 8) + data[6];
+  
     // char output[128];
+    // sprintf(output, "Current RGBC value: %d, %d, %d", red, green, blue);
 
-    // // Convert the data
-    // int code
-    // code = i2cReadWrite(TCSADDRESS, CDATAREAD, 1, data, 2);
-    // int cData = (int) data[1];
-
-    // serialWrite(code);
-
-    // sprintf(output, "Current CDATA value: %d", cData);
     // serialWrite(output);
-    
-    // memset(output, 0, 128);
-
-    // code = i2cReadWrite(TCSADDRESS, REDREAD, 1, data, 2);
-    // serialWrite(code);
-    // int red = (int) data[1];
-    // sprintf(output, "Current RED value: %d", red);
-    // serialWrite(output);
-    
-    // memset(output, 0, 128);
-
-    // code = i2cReadWrite(TCSADDRESS, GREENREAD, 1, data, 2);
-    // serialWrite(code);
-    // int green = (int) data[1];
-    // sprintf(output, "Current GREEN value: %d", green);
-    // serialWrite(output);
-    
-    // memset(output, 0, 128);
-
-    // code = i2cReadWrite(TCSADDRESS, BLUEREAD, 1, data, 2);
-    // serialWrite(code);
-    // int blue = (int) data[1];
-    // sprintf(output, "Current BLUE value: %d", blue);
-    // serialWrite(output);
-    
-    // memset(output, 0, 128);
-
-    // int cData = (data[0]);
-    // int red = (data[2]);
-    // int green = (data[4]);
-    // int blue = (data[6]);
-    
-    serialWrite("Finished UwU\n");
-    char output[128];
-    red = 10;
-    green = 10;
-    blue = 10;
-    sprintf(output, "Current RGBC value: %d, %d, %d", red, green, blue);
-
-    serialWrite(red);
-    serialWrite(green);
-    serialWrite(blue);
-    //serialWrite(&output);
 }

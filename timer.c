@@ -36,7 +36,6 @@ void timerSleep(int duration)
     serialWrite("Sleeping");
     timerReset();
     while(timeElapsed() < duration){}
-    serialWrite("Finished Sleeping");
 }
 
 void SysTick_Handler(void)
