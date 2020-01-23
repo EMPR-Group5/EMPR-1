@@ -54,13 +54,35 @@ int TCSRead(int* RGBC)
     i2cReadWrite(TCSADDRESS, CDATAREAD, 1, data, 8);
 
     // Convert the data
-    int RGBC[3]   = (data[1] << 8) + data[0];
-    int RGBC[0]   = (data[3] << 8) + data[2];
-    int RGBC[1]   = (data[5] << 8) + data[4];
-    int RGBC[2]   = (data[7] << 8) + data[6];
+    // RGBC[3]   = (data[1] << 8) + data[0];
+    // RGBC[0]   = (data[3] << 8) + data[2];
+    // RGBC[1]   = (data[5] << 8) + data[4];
+    // RGBC[2]   = (data[7] << 8) + data[6];
+	RGBC[3]   = data[1];
+    RGBC[0]   = data[3];
+    RGBC[1]   = data[5];
+    RGBC[2]   = data[7];
   
-    // char output[128];
-    // sprintf(output, "Current RGBC value: %d, %d, %d", red, green, blue);
+    char output[128];
+    // sprintf(output, "Current RGBC value: %d, %d, %d", RGBC[0], RGBC[1], RGBC[2]);
+    serialWrite(output);
+}
 
-    // serialWrite(output);
+void TCSReadConverted(int* RGBC)
+{
+	int r = RGBC[0];
+    int g = RGBC[1];
+    int b = RGBC[2];
+
+    r = (r % 3) > 0  ? (++r % 3) > 0  ? ++r : r : r;
+    g = (g % 3) > 0  ? (++g % 3) > 0  ? ++g : g : g;
+    b = (b % 3) > 0  ? (++b % 3) > 0  ? ++b : b : b;
+
+	char output[128];
+    sprintf(output, "[%d, %d, %d] => [%d, %d, %d]", RGBC[0], RGBC[1], RGBC[2], r, g, b);
+    serialWrite(output);
+
+	RGBC[0] = r;
+	RGBC[1] = g;
+	RGBC[2] = b;
 }

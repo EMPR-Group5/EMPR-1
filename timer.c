@@ -33,7 +33,6 @@ void timerReset(void)
 
 void timerSleep(int duration)
 {
-    serialWrite("Sleeping");
     timerReset();
     while(timeElapsed() < duration){}
 }

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lpc17xx_gpio.h"   // Central include files
-#include "i2c.h"              // Local functions
+#include "i2c.h"            // Local functions
 #include "lcd.h"
 #include "serial.h"
 #include "timer.h"
