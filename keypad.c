@@ -24,7 +24,7 @@ int keypadRead(void)
 
 int getNumber(int col, int readByte)
 {
-    double debounceTime = 0.3;
+    double debounceTime = 0;
     int row = 0;
     char lookup[5][5] = {{' ','1','4','7','*'},{' ','2','5','8','0'},{' ','3','6','9','#'},{' ','A','B','C','D'}};
     col = 3-col;

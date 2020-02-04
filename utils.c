@@ -9,6 +9,9 @@
 #include "keypad.h"
 #include "utils.h"
 #include "TCS347255.h"
+#include "motorController.h"
+
+
 
 int messageCount = 0;
 
@@ -19,6 +22,7 @@ void initAll(void)
     setupTimer();
     lcdSetup();
     setupTCS();
+    MotorSetup();
     serialWrite("Setup Done \n");
 }
 
@@ -35,7 +39,9 @@ void serialWrite(char *str)
     // malloc for the output string to save space
     char *buffer = (char*) malloc((strlen(str) + sizeof(int) + 3) * sizeof(char) + 4);
     sprintf(buffer, "<%03d> %s\n\r", messageCount, str);
+    __disable_irq();
     write_usb_serial_blocking(buffer, strlen(buffer));
+    __enable_irq();
 
     free(buffer);
     messageCount++;

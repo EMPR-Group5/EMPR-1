@@ -28,6 +28,7 @@ void setupI2C(void)
 
 int i2cWrite(int addr, char* data, int length)
 {
+    __disable_irq();
     //Setup Packet
     I2C_M_SETUP_Type packet;
     packet.sl_addr7bit = addr;
@@ -43,16 +44,19 @@ int i2cWrite(int addr, char* data, int length)
     //Transfer Packet
     if(I2C_MasterTransferData(LPC_I2C1, &packet, (I2C_TRANSFER_OPT_Type) I2C_TRANSFER_POLLING) == SUCCESS)
     {   //if successful return 1
+        __enable_irq();
         return(1);
     }
     else
     {   //Else return 0
+        __enable_irq();
         return(0);
     }
 }
 
 int i2cRead(int addr, char* data, int length)
 {    
+    __disable_irq();
     //Setup Packet
     I2C_M_SETUP_Type packet;
     packet.sl_addr7bit = addr;
@@ -68,16 +72,19 @@ int i2cRead(int addr, char* data, int length)
     //Transfer Packet
     if(I2C_MasterTransferData(LPC_I2C1, &packet, (I2C_TRANSFER_OPT_Type) I2C_TRANSFER_POLLING) == SUCCESS)
     {   //if successful return 1
+        __enable_irq();
         return(1);
     }
     else
     {   //Else return 0
+        __enable_irq();
         return(0);
     }
 }
 
 int i2cReadWrite(int addr, char* writeData, int writeLength, char* readData, int readLength)
 {    
+    __disable_irq();
     //Setup Packet
     I2C_M_SETUP_Type packet;
     packet.sl_addr7bit = addr;
@@ -93,14 +100,17 @@ int i2cReadWrite(int addr, char* writeData, int writeLength, char* readData, int
     //Transfer Packet
     if(I2C_MasterTransferData(LPC_I2C1, &packet, (I2C_TRANSFER_OPT_Type) I2C_TRANSFER_POLLING) == SUCCESS)
     {   //if successful return 1
+        __enable_irq();
         return(1);
     }
     else
     {   //Else return 0
+        __enable_irq();
         return(0);
     }
 }
 
+/*
 int i2cScan(int* addressArray)
 {
     int counter = 0;
@@ -132,3 +142,4 @@ void i2cScanAll(void)
 
     serialWrite("End of devices\n");
 }
+*/

@@ -63,9 +63,9 @@ int TCSRead(int* RGBC)
     RGBC[1]   = data[5];
     RGBC[2]   = data[7];
   
-    char output[128];
+    //char output[128];
     // sprintf(output, "Current RGBC value: %d, %d, %d", RGBC[0], RGBC[1], RGBC[2]);
-    serialWrite(output);
+    //serialWrite(output);
 }
 
 void TCSReadConverted(int* RGBC)
@@ -78,9 +78,9 @@ void TCSReadConverted(int* RGBC)
     g = (g % 3) > 0  ? (++g % 3) > 0  ? ++g : g : g;
     b = (b % 3) > 0  ? (++b % 3) > 0  ? ++b : b : b;
 
-	char output[128];
-    sprintf(output, "[%d, %d, %d] => [%d, %d, %d]", RGBC[0], RGBC[1], RGBC[2], r, g, b);
-    serialWrite(output);
+	//char output[128];
+    //sprintf(output, "[%d, %d, %d] => [%d, %d, %d]", RGBC[0], RGBC[1], RGBC[2], r, g, b);
+    //serialWrite(output);
 
 	RGBC[0] = r;
 	RGBC[1] = g;
